@@ -69,7 +69,10 @@ jobs:
           cache-to: type=gha,scope=${{ matrix.variant }},mode=max
 
       - name: amd64 smoke test
-        run: tests/smoke.sh ${{ env.GHCR }}/${{ env.IMAGE }}:${{ matrix.variant }}-sha-${{ github.sha }} rviz-vnc
+        # metadata-action type=sha produces the SHORT sha tag; match it.
+        run: |
+          SHORT_SHA=${GITHUB_SHA::7}
+          tests/smoke.sh ${{ env.GHCR }}/${{ env.IMAGE }}:${{ matrix.variant }}-sha-${SHORT_SHA} rviz-vnc
 
   mirror:
     # Copy multi-arch manifests to the Aliyun mirror registry (release tags only).
