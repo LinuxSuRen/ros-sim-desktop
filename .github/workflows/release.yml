@@ -19,7 +19,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        variant: [rviz, gazebo]
+        # gazebo is amd64-only: ros-humble-gazebo-ros-pkgs / gazebo-plugins have
+        # no arm64 jammy debs in packages.ros.org (verified against the
+        # binary-arm64 Packages index); rviz stays multi-arch.
+        include:
+          - variant: rviz
+            platforms: linux/amd64,linux/arm64
+          - variant: gazebo
+            platforms: linux/amd64
     steps:
       - uses: actions/checkout@v4
 
@@ -59,7 +66,7 @@ jobs:
         with:
           context: .
           file: docker/${{ matrix.variant }}/Dockerfile
-          platforms: linux/amd64,linux/arm64
+          platforms: ${{ matrix.platforms }}
           push: true
           build-args: |
             BASE_IMAGE=${{ env.GHCR }}/${{ env.IMAGE }}:base
