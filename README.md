@@ -3,7 +3,7 @@
 ROS 2 仿真桌面运行时镜像：**rviz2 / Gazebo Classic + Xvfb + VNC + noVNC**，
 一条 `docker run` 在浏览器里打开你的仿真桌面。
 
-- 多架构：`linux/amd64` + `linux/arm64` 单 manifest（aarch64 现场机可直拉）
+- rviz 变体多架构：`linux/amd64` + `linux/arm64` 单 manifest（aarch64 现场机可直拉）；gazebo 变体仅 amd64
 - 双变体：`rviz`（可视化）与 `gazebo`（物理仿真），共享同一 base 层
 - 双 registry：GHCR 主源 + 阿里云镜像源（国内现场机）
 - 两种项目接入契约：**内容挂载**（开发态，零 Dockerfile）与**派生镜像**（部署态，`FROM` 即用）——见 [docs/integration.md](docs/integration.md)
@@ -13,8 +13,8 @@ ROS 2 仿真桌面运行时镜像：**rviz2 / Gazebo Classic + Xvfb + VNC + noVN
 | 变体 | 镜像 | 内容 |
 |---|---|---|
 | base | `ros-sim-desktop:base` | ros:humble + Xvfb + x11vnc + fluxbox + noVNC + CJK locale |
-| rviz | `ros-sim-desktop:rviz-v*` | base + rviz2 + tf2-tools + xacro |
-| gazebo | `ros-sim-desktop:gazebo-v*` | base + Gazebo Classic (gazebo_ros_pkgs) + xacro |
+| rviz | `ros-sim-desktop:rviz-v*` | base + rviz2 + tf2-tools + xacro（amd64 + arm64） |
+| gazebo | `ros-sim-desktop:gazebo-v*` | base + Gazebo Classic (gazebo_ros_pkgs) + xacro（**仅 amd64**：ROS apt 仓库无 arm64 jammy 的 gazebo-ros-pkgs/gazebo-plugins 包，已对照 binary-arm64 Packages 索引核实） |
 
 tag 规则：`<变体>-v<MAJOR>.<MINOR>.<PATCH>`（发布）、`<变体>-main`（滚动）、
 `<变体>-sha-<short>`（可追溯）。禁止在任何项目里 pin `latest`/`:dev`。
