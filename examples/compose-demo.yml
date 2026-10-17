@@ -1,0 +1,19 @@
+# Standalone demo stack: gazebo variant + the example world, viewable in the
+# browser via noVNC. No external project required.
+#
+#   docker compose -f examples/compose-demo.yml up -d
+#   open http://localhost:6080
+services:
+  gazebo-demo:
+    image: ${SIM_DESKTOP_IMAGE:-ghcr.io/linuxsuren/ros-sim-desktop:gazebo-main}
+    command: gazebo-vnc
+    init: true
+    ports:
+      - "${SIM_DEMO_WEB_PORT:-6080}:6080"
+      - "${SIM_DEMO_VNC_PORT:-5900}:5900"
+    environment:
+      SIM_GEOMETRY: ${SIM_GEOMETRY:-1600x1000x24}
+      SIM_VNC_PASSWORD: ${SIM_VNC_PASSWORD:-ros}
+      SIM_WORLD: /opt/sim/worlds/empty_ground.world
+    volumes:
+      - ./gazebo-custom-world/empty_ground.world:/opt/sim/worlds/empty_ground.world:ro
