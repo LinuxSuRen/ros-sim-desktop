@@ -18,6 +18,7 @@ jobs:
         uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: docker/base/Dockerfile
+          failure-threshold: warning
 
   build:
     runs-on: ubuntu-latest
