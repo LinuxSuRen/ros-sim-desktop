@@ -14,7 +14,7 @@ set -euo pipefail
 # non-interactive entrypoints must source it explicitly or ros2/rviz2 are
 # not on PATH (the container died instantly in CI because of this).
 if [ -f "/opt/ros/${ROS_DISTRO:-humble}/setup.bash" ]; then
-  # shellcheck disable=SC1091
+  # shellcheck disable=SC1090,SC1091
   source "/opt/ros/${ROS_DISTRO:-humble}/setup.bash"
 fi
 
