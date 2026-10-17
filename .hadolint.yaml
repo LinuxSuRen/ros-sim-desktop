@@ -1,0 +1,4 @@
+# DL3008: apt package versions intentionally float with the distro
+# (ros:humble-ros-base-jammy); pinning them would break ROS repo updates.
+ignoredRules:
+  - DL3008

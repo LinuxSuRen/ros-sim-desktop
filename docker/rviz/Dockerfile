@@ -2,7 +2,9 @@
 #
 # Build (from repo root, after base):
 #   docker build -f docker/rviz/Dockerfile -t ros-sim-desktop:rviz-dev .
-FROM ros-sim-desktop:base
+# CI overrides BASE_IMAGE with the fully-qualified GHCR reference.
+ARG BASE_IMAGE=ros-sim-desktop:base
+FROM ${BASE_IMAGE}
 
 ENV DEBIAN_FRONTEND=noninteractive
 

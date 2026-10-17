@@ -14,7 +14,7 @@ docker run -d --name "$NAME" -p 16080:6080 "$IMAGE" "$MODE" >/dev/null
 
 ok=0
 for _ in $(seq 1 40); do
-  if curl -fsS -o /dev/null "http://127.0.0.1:16080/" ; then ok=1; break; fi
+  if curl -fsS -o /dev/null "http://127.0.0.1:16080/vnc.html" ; then ok=1; break; fi
   sleep 1
 done
 if [ "$ok" != 1 ]; then

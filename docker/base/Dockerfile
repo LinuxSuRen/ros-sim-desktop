@@ -4,6 +4,8 @@
 #   docker build -f docker/base/Dockerfile -t ros-sim-desktop:base .
 FROM ros:humble-ros-base-jammy
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
