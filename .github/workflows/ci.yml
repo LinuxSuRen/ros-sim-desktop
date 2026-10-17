@@ -1,0 +1,44 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: shellcheck
+        run: |
+          sudo apt-get update && sudo apt-get install -y shellcheck
+          shellcheck docker/entrypoint.sh tests/*.sh
+      - name: hadolint
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: docker/base/Dockerfile
+
+  build:
+    runs-on: ubuntu-latest
+    needs: lint
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [rviz, gazebo]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build base
+        run: docker build -f docker/base/Dockerfile -t ros-sim-desktop:base .
+      - name: Build ${{ matrix.variant }}
+        run: docker build -f docker/${{ matrix.variant }}/Dockerfile -t ros-sim-desktop:${{ matrix.variant }}-ci .
+      - name: Smoke test (amd64)
+        run: tests/smoke.sh ros-sim-desktop:${{ matrix.variant }}-ci rviz-vnc
+        if: matrix.variant == 'rviz'
+      - name: Smoke test gazebo headless
+        run: |
+          docker run -d --name gz-headless ros-sim-desktop:gazebo-ci headless
+          sleep 15
+          docker logs gz-headless | grep -F '[sim-entrypoint] headless idle'
+          docker rm -f gz-headless
+        if: matrix.variant == 'gazebo'

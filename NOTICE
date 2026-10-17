@@ -1,0 +1,19 @@
+This product includes software developed as part of ros-sim-desktop
+(Apache-2.0, https://github.com/linuxsuren/ros-sim-desktop).
+
+The distributed container images additionally contain the following
+third-party components, each under its own license:
+
+- ROS 2 Humble (Apache-2.0) and its dependencies, from the official
+  ros:humble-ros-base-jammy base image and apt packages.
+- Xvfb, x11-utils from X.Org (MIT/X11 style licenses).
+- x11vnc (GPL-2.0) — installed as an independent process via apt.
+- Fluxbox window manager (MIT).
+- noVNC (BSD-2-Clause).
+- websockify (BSD-3-Clause).
+- Gazebo Classic and gazebo_ros_pkgs (Apache-2.0) in the gazebo variant.
+- rviz2 (BSD-3-Clause) and tf2/xacro (Apache-2.0/BSD) in the rviz variant.
+
+GPL-licensed components are used unmodified, installed via the
+distribution's package manager, and communicate with the rest of the
+image solely at process/socket level.
