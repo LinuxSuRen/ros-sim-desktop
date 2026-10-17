@@ -3,5 +3,10 @@
 #
 # DL3008: apt package versions intentionally float with the distro
 # (ros:humble-ros-base-jammy); pinning them would break ROS repo updates.
+#
+# DL3006: variants build FROM ${BASE_IMAGE}; the ARG default carries a tag
+# (ros-sim-desktop:base / the fully-qualified GHCR ref injected by CI), which
+# hadolint cannot statically resolve.
 ignored:
   - DL3008
+  - DL3006
