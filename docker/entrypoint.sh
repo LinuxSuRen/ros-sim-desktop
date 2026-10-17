@@ -10,6 +10,14 @@
 # MAJOR version bump (see README "版本语义").
 set -euo pipefail
 
+# Official ros: base images only source ROS in interactive shells (.bashrc);
+# non-interactive entrypoints must source it explicitly or ros2/rviz2 are
+# not on PATH (the container died instantly in CI because of this).
+if [ -f "/opt/ros/${ROS_DISTRO:-humble}/setup.bash" ]; then
+  # shellcheck disable=SC1091
+  source "/opt/ros/${ROS_DISTRO:-humble}/setup.bash"
+fi
+
 log() { echo "[sim-entrypoint] $*"; }
 
 MODE="${1:-${SIM_CMD:-rviz-vnc}}"
