@@ -45,7 +45,7 @@ jobs:
           cache-to: type=gha,scope=base,mode=max
 
       - id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: ${{ env.GHCR }}/${{ env.IMAGE }}
           flavor: latest=false
