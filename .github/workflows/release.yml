@@ -25,8 +25,10 @@ jobs:
         include:
           - variant: rviz
             platforms: linux/amd64,linux/arm64
+            smoke_mode: rviz-vnc
           - variant: gazebo
             platforms: linux/amd64
+            smoke_mode: gazebo-vnc
     steps:
       - uses: actions/checkout@v4
 
@@ -79,7 +81,7 @@ jobs:
         # metadata-action type=sha produces the SHORT sha tag; match it.
         run: |
           SHORT_SHA=${GITHUB_SHA::7}
-          tests/smoke.sh ${{ env.GHCR }}/${{ env.IMAGE }}:${{ matrix.variant }}-sha-${SHORT_SHA} rviz-vnc
+          tests/smoke.sh ${{ env.GHCR }}/${{ env.IMAGE }}:${{ matrix.variant }}-sha-${SHORT_SHA} ${{ matrix.smoke_mode }}
 
   mirror:
     # Copy multi-arch manifests to the Aliyun mirror registry (release tags only).
