@@ -1,4 +1,7 @@
+# Key name is `ignored` (see hadolint Configfile.hs): `ignoredRules` is
+# silently ignored by the YAML parser.
+#
 # DL3008: apt package versions intentionally float with the distro
 # (ros:humble-ros-base-jammy); pinning them would break ROS repo updates.
-ignoredRules:
+ignored:
   - DL3008

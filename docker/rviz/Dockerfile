@@ -4,6 +4,7 @@
 #   docker build -f docker/rviz/Dockerfile -t ros-sim-desktop:rviz-dev .
 # CI overrides BASE_IMAGE with the fully-qualified GHCR reference.
 ARG BASE_IMAGE=ros-sim-desktop:base
+# hadolint ignore=DL3006: the ARG default above carries a tag
 FROM ${BASE_IMAGE}
 
 ENV DEBIAN_FRONTEND=noninteractive
