@@ -15,10 +15,14 @@ jobs:
           sudo apt-get update && sudo apt-get install -y shellcheck
           shellcheck docker/entrypoint.sh tests/*.sh
       - name: hadolint
-        uses: hadolint/hadolint-action@v3.1.0
-        with:
-          dockerfile: docker/base/Dockerfile
-          failure-threshold: warning
+        # Run the binary directly with an explicit --config: the container
+        # action does not reliably discover .hadolint.yaml in the workspace.
+        run: |
+          sudo wget -qO /usr/local/bin/hadolint \
+            https://github.com/hadolint/hadolint/releases/download/v2.12.0/hadolint-Linux-x86_64
+          sudo chmod +x /usr/local/bin/hadolint
+          hadolint --config .hadolint.yaml --failure-threshold warning \
+            docker/base/Dockerfile docker/rviz/Dockerfile docker/gazebo/Dockerfile
 
   build:
     runs-on: ubuntu-latest
